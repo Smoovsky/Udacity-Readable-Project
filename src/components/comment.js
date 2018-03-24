@@ -1,7 +1,7 @@
 import PostUtil from '../utils/postUtil.js';
 import React, { Fragment } from 'react';
 
-function Comment({timestamp, author, id, body,type, openEditModal, voteScore,commentCount = ''}){
+function Comment({timestamp, author, id, body,type, openEditModal, voteScore,commentCount = '', title = ''}){
   return (
     <li style={{overflow:'hidden'}}>
       <div style={{width:'20%'}}>
@@ -12,7 +12,7 @@ function Comment({timestamp, author, id, body,type, openEditModal, voteScore,com
         <p>{body}</p>
         <p className="commentVote">vote:{voteScore}{type==='Post'?(<Fragment><br />comments: {commentCount}</Fragment>):null}</p>
         <div style={{hight:'42px'}}></div>
-        <PostUtil {...{id, type, openEditModal}}/>
+        <PostUtil {...{id, type, openEditModal, body, title}}/>
       </div>
     </li>
   );

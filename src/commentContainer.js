@@ -15,11 +15,14 @@ class CommentContainer extends Component{
     editModalType:'newComment',
     sortBy:'voteScore',
     order:'descending',
-    editID: undefined
+    editID: undefined,
+    ready: false
   }
 
   componentDidMount(){
     Modal.setAppElement('body');
+    this.id = this.props.match.params.id;
+    this.props.getAllPosts().then(() => {this.props.getCommentsByPost(this.id);}).then(() => {this.setState({ready:true});});
   }
 
   openEditModal = (type, editID) => {
@@ -39,49 +42,45 @@ class CommentContainer extends Component{
     this.setState({sortOrder});
   }
 
-
-  componentWillMount(){
-    this.id = this.props.match.params.id;
-    this.props.getCommentsByPost(this.id);
-    this.props.getAllPosts();
-  }
-
   render(){
-    let isModalOpen = this.state.editModalOpen;
-    let post = this.props.posts.posts.find((post)=>{
-      return post.id === this.id;
-    });
-    let sort = (this.state.sortOrder === 'descending'?('-' + this.state.sortBy):(this.state.sortBy));
-    let comments = [...this.props.comments.comments].sort(sortBy(sort));
+    if(this.state.ready){
+      let isModalOpen = this.state.editModalOpen;
+      let post = this.props.posts.posts.find((post)=>{
+        return post.id === this.id;
+      });
+      let sort = (this.state.sortOrder === 'descending'?('-' + this.state.sortBy):(this.state.sortBy));
+      let comments = [...this.props.comments.comments].sort(sortBy(sort));
 
-
-    return (
-      <div className="container">
-        <CommentIndexUtil
-          setSort={this.setSort}
-          setSortOrder={this.setSortOrder}
-          openEditModal={this.openEditModal}
-          postID={this.id}
-        />
-        {post?<CommentView comments={comments} {...{post}}
-          openEditModal={this.openEditModal}
-        />:<Redirect to="/unfound"/>}
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={this.closeEditModal}
-          contentLabel='Modal'
-        >
-          <EditModal
-            type={this.state.editModalType}
-            editID={this.state.editID}
-            newComment={this.props.newComment}
-            editComment={this.props.editComment}
-            editPost={this.props.editPost}
-            closeEditModal={this.closeEditModal}
+      return (
+        <div className="container">
+          <CommentIndexUtil
+            setSort={this.setSort}
+            setSortOrder={this.setSortOrder}
+            openEditModal={this.openEditModal}
+            postID={this.id}
           />
-        </Modal>
-      </div>
-    );}
+          {post?<CommentView comments={comments} {...{post}}
+            openEditModal={this.openEditModal}
+          />:<Redirect to="/unfound"/>}
+          <Modal
+            isOpen={isModalOpen}
+            onRequestClose={this.closeEditModal}
+            contentLabel='Modal'
+          >
+            <EditModal
+              type={this.state.editModalType}
+              editID={this.state.editID}
+              newComment={this.props.newComment}
+              editComment={this.props.editComment}
+              editPost={this.props.editPost}
+              closeEditModal={this.closeEditModal}
+            />
+          </Modal>
+        </div>
+      );}else{
+      return null;
+    }
+  }
 }
 
 let mapDispatchToProps = (dispatch) => {

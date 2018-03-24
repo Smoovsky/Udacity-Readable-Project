@@ -1,7 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
-function EditModal({type, newComment, editComment, editPost, editID, closeEditModal}){
-  let onSubmit;
+function EditModal({type, newComment, editComment, editPost, editID, closeEditModal,comments, posts}){
+  let onSubmit,body,title,target;
   switch(type){
   case 'newComment':
     onSubmit = function(e){
@@ -14,6 +15,8 @@ function EditModal({type, newComment, editComment, editPost, editID, closeEditMo
     };
     break;
   case 'editComment':
+    target = comments.find((x) => {return x.id === editID;});
+    body = target.body;
     onSubmit = function(e){
       e.preventDefault();
       let body = e.target[0].value;
@@ -23,6 +26,9 @@ function EditModal({type, newComment, editComment, editPost, editID, closeEditMo
     };
     break;
   case 'editPost':
+    target = posts.find((x) => {return x.id === editID;});
+    body = target.body;
+    title = target.title;
     onSubmit = function(e){
       e.preventDefault();
       let title = e.target[0].value;
@@ -51,15 +57,15 @@ function EditModal({type, newComment, editComment, editPost, editID, closeEditMo
           case 'editComment':
             return (
               <form onSubmit={onSubmit}>
-                    body:<br></br><textarea rows='10' cols='80'></textarea><br></br>
+                    body:<br></br><textarea rows='10' cols='80' defaultValue={body}></textarea><br></br>
                 <input type='submit'></input>
               </form>
             );
           case 'editPost':
             return (
               <form onSubmit={onSubmit}>
-                    Title:<br></br><input type='text' name='title'></input><br></br>
-                    body:<br></br><textarea rows='10' cols='80'></textarea><br></br>
+                    Title:<br></br><input type='text' name='title' defaultValue={title}></input><br></br>
+                    body:<br></br><textarea rows='10' cols='80' defaultValue={body}></textarea><br></br>
                 <input type='submit'></input>
               </form>
             );
@@ -72,4 +78,10 @@ function EditModal({type, newComment, editComment, editPost, editID, closeEditMo
   );
 }
 
-export default EditModal;
+function mapStateToProps(state){
+  return {
+    posts: state.posts.posts,
+    comments: state.comments.comments
+  };
+}
+export default connect(mapStateToProps)(EditModal);

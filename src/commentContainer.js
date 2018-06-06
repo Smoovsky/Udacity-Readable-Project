@@ -8,12 +8,18 @@ import {newComment, editPost, editComment} from './actions';
 import EditModal from './utils/editModal.js';
 import sortBy from 'sort-by';
 import {Redirect} from 'react-router-dom';
+import {Layout} from 'antd';
+
+let Content = Layout.Content;
+let contentStyle = {
+  minHeight:'100vh',
+};
 
 class CommentContainer extends Component{
   state = {
     editModalOpen:false,
     editModalType:'newComment',
-    sortBy:'voteScore',
+    sortBy:'timestamp',
     order:'descending',
     editID: undefined,
     ready: false
@@ -38,48 +44,48 @@ class CommentContainer extends Component{
     this.setState({sortBy});
   }
 
-  setSortOrder = (sortOrder) => {
-    this.setState({sortOrder});
+  setSortOrder = (order) => {
+    this.setState({order});
   }
 
   render(){
-    if(this.state.ready){
-      let isModalOpen = this.state.editModalOpen;
-      let post = this.props.posts.posts.find((post)=>{
-        return post.id === this.id;
-      });
-      let sort = (this.state.sortOrder === 'descending'?('-' + this.state.sortBy):(this.state.sortBy));
-      let comments = [...this.props.comments.comments].sort(sortBy(sort));
+    let isModalOpen = this.state.editModalOpen;
+    let post = this.props.posts.posts.find((post)=>{
+      return post.id === this.id;
+    });
+    let sort = (this.state.order === 'descending'?('-' + this.state.sortBy):(this.state.sortBy));
+    let comments = [...this.props.comments.comments].sort(sortBy(sort));
 
-      return (
-        <div className="container">
-          <CommentIndexUtil
-            setSort={this.setSort}
-            setSortOrder={this.setSortOrder}
-            openEditModal={this.openEditModal}
-            postID={this.id}
+    return (
+      <Content style={contentStyle}>
+        <CommentIndexUtil
+          setSort={this.setSort}
+          setSortOrder={this.setSortOrder}
+          openEditModal={this.openEditModal}
+          postID={this.id}
+          sort={this.state.sortBy}
+          order={this.state.order}
+        />
+        <CommentView comments={comments} {...{post}}
+          openEditModal={this.openEditModal}
+          loading={!this.state.ready}
+        />
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={this.closeEditModal}
+          contentLabel='Modal'
+        >
+          <EditModal
+            type={this.state.editModalType}
+            editID={this.state.editID}
+            newComment={this.props.newComment}
+            editComment={this.props.editComment}
+            editPost={this.props.editPost}
+            closeEditModal={this.closeEditModal}
           />
-          {post?<CommentView comments={comments} {...{post}}
-            openEditModal={this.openEditModal}
-          />:<Redirect to="/unfound"/>}
-          <Modal
-            isOpen={isModalOpen}
-            onRequestClose={this.closeEditModal}
-            contentLabel='Modal'
-          >
-            <EditModal
-              type={this.state.editModalType}
-              editID={this.state.editID}
-              newComment={this.props.newComment}
-              editComment={this.props.editComment}
-              editPost={this.props.editPost}
-              closeEditModal={this.closeEditModal}
-            />
-          </Modal>
-        </div>
-      );}else{
-      return null;
-    }
+        </Modal>
+      </Content>
+    );
   }
 }
 

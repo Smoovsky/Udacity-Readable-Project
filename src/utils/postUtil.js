@@ -4,10 +4,7 @@ import EditDelete from './editDelete.js';
 
 function PostUtil({id, type, openEditModal, title, body}){
   return (
-    <div className='postUti'>
-      <Vote {...{id, type}} />
-      <EditDelete {...{id, type, openEditModal, title, body}} />
-    </div>
+      <EditDelete {...{id, type, openEditModal, title, body}} key={type+id+'ED'}/>
   );
 }
 

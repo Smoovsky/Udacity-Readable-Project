@@ -1,63 +1,95 @@
 import React from 'react';
+import { Row, Col, Button, Select, Menu, Dropdown, Icon } from 'antd';
+import styled from 'styled-components';
 
-function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOrder}){
+const StyledSelect = styled(Select)`
+  width:100px
+`;
+const Option = Select.Option;
+
+function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOrder, sort, order}){
+  let Options = [];
+  let utilStyle = {
+    padding:'5px 0',
+  };
+  let colStyle = {
+    textAlign:'center',
+  };
+  for (let cat of categories){
+    Options.push(
+      <Option value={cat.name} key={cat.name}>
+        {cat.name}
+      </Option>
+    );
+  }
+  Options.push(
+    <Option value="none" key="none">All</Option>
+  );
+
+
+  let handleSort = (e) => {
+    setSort(e.key);
+  };
+  let handleOrder = () => {
+    order === 'ascending' ? setSortOrder('descending') : setSortOrder('ascending');
+  };
+
+  const menuSort = (
+    <Menu onClick={handleSort}>
+      <Menu.Item key="timestamp">Date</Menu.Item>
+      <Menu.Item key="voteScore">Vote</Menu.Item>
+    </Menu>
+  );
+
   return (
-    <div className="toolbar">
-
-      <span>
-        <a onClick={(e)=>{
+    <Row style={utilStyle} type="flex" justify="space-around">
+      <Col span={8} style={colStyle}>
+        <Button
+          type="primary"
+          onClick={(e)=>{
             e.preventDefault();
             openNewPostModal();
           }}>
-          New Post
-        </a>
-      </span>
-
-      <span>view<select onChange={(e)=>{
-          setFilter(e.target.value);
+          <Icon type="edit" />New Post
+        </Button>
+      </Col>
+      <Col span={8} style={colStyle}>
+        View&nbsp;
+        <StyledSelect
+          onChange={(value)=>{
+            setFilter(value);
+          }}
+          defaultValue="none">
+          {Options}
+        </StyledSelect>
+      </Col>
+      <Col span={8} style={colStyle}>
+        Sort by&nbsp;
+        {/* <StyledSelect onChange={(e)=>{
+          setSort(e.target.value);
         }}>
-        {(() => {
-          let options = [];
-          for (let cat of categories){
-            options.push(
-              <option value={cat.name} key={cat.name}>
-                {cat.name}
-              </option>
-            );
-          }
-          options.push(
-            <option value="none" key="none">All</option>
-          );
-          return options;
-        })()}
-      </select>only</span>
-
-      <span>
-        sort by
-        <select onChange={(e)=>{
-            setSort(e.target.value);
-          }}>
-
-          <option value="timestamp">date</option>
-
-          <option value="voteScore">vote</option>
-
-
-        </select>
-
-        <select onChange={(e)=>{
-            setSortOrder(e.target.value);
-          }}>
-
-          <option value="descending">descending</option>
-
-          <option value="ascending">ascending</option>
-
-        </select>
-      </span>
-
-    </div>
+          <Option value="timestamp">date</Option>
+          <Option value="voteScore">vote</Option>
+        </StyledSelect>
+        <StyledSelect onChange={(e)=>{
+          setSortOrder(e.target.value);
+        }}>
+          <Option value="descending">descending</Option>
+          <Option value="ascending">ascending</Option>
+        </StyledSelect> */}
+        <Button.Group>
+          <Dropdown overlay={menuSort}>
+            <Button>
+              {sort === 'timestamp' ? 'Date' : 'Vote'}
+            </Button>
+          </Dropdown>
+          <Button onClick={handleOrder}>
+            {order === 'descending' ? (<React.Fragment>Descend <Icon type="down"/></React.Fragment>) : (<React.Fragment>Ascend <Icon type="up"/></React.Fragment>)}
+          </Button>
+        </Button.Group>
+      </Col>
+    </Row>
   );
-};
+}
 
 export default IndexUtil;

@@ -7,14 +7,14 @@ import { withRouter } from 'react-router-dom';
 let editDelete = withRouter(function({type, id, deletePost, deleteComment, openEditModal, history}){
   let funcDelete;
   switch(type){
-  case 'Post':
-    funcDelete = deletePost;
-    break;
-  case 'Comment':
-    funcDelete = deleteComment;
-    break;
-  default:
-    break;
+    case 'Post':
+      funcDelete = deletePost;
+      break;
+    case 'Comment':
+      funcDelete = deleteComment;
+      break;
+    default:
+      break;
   }
   return (
     <div style={{clear:'both'}}>

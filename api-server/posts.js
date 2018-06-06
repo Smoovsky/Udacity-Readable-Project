@@ -5,8 +5,8 @@ let db = {}
 const defaultData = {
   "8xf0y6ziyjabvozdd253nd": {
     id: '8xf0y6ziyjabvozdd253nd',
-    timestamp: 1467166872634,
-    title: 'Udacity is the best place to learn React',
+    timestamp: 'at 2018/04/04 22:00',
+    title: 'react is so useful',
     body: 'Everyone says so after all.',
     author: 'thingtwo',
     category: 'react',
@@ -16,12 +16,23 @@ const defaultData = {
   },
   "6ni6ok3ym7mf1p33lnez": {
     id: '6ni6ok3ym7mf1p33lnez',
-    timestamp: 1468479767190,
+    timestamp: 'at 2018/04/02 12:00',
     title: 'Learn Redux in 10 minutes!',
     body: 'Just kidding. It takes more than 10 minutes to learn technology.',
     author: 'thingone',
     category: 'redux',
     voteScore: -5,
+    deleted: false,
+    commentCount: 0
+  },
+  "6ni6ok2wm7mf1p33lnez": {
+    id: '6ni6ok2wm7mf1p33lnez',
+    timestamp: 'at 2018/02/22 1:00',
+    title: 'Try expo!',
+    body: 'But it does not support background operation!',
+    author: 'thingone',
+    category: 'react-native',
+    voteScore: 5,
     deleted: false,
     commentCount: 0
   }

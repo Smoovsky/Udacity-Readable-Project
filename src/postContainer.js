@@ -62,7 +62,7 @@ class postContainer extends Component {
 
     return (
       <div>
-        <IndexUtil categories={this.props.categories} setFilter={this.setFilter} setSort={this.setSort} setSortOrder={this.setSortOrder} openNewPostModal={this.openNewPostModal} />
+        <IndexUtil categories={this.props.categories} setFilter={this.setFilter} setSort={this.setSort} setSortOrder={this.setSortOrder} openNewPostModal={this.openNewPostModal} sort={this.state.sortBy} order={this.state.sortOrder}/>
         <PostView posts={posts} />
         <Modal
           isOpen={openNewPostModalOpen}

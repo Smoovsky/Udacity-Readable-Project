@@ -96,7 +96,7 @@ class NewPostModal extends React.Component{
           }
           ]
         })(
-          <TextArea />
+          <TextArea autosize={{minRows:6}}/>
         )}
       </FormItem>);
     return(

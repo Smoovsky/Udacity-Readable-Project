@@ -86,7 +86,6 @@ export const votePost = (id, vote) => {
     type: VOTE_POST,
     vote: {id, vote}
   };
-
   return (dispatch) => {
     return readableAPI.votePost(id, vote).then(() => dispatch(action));
   };

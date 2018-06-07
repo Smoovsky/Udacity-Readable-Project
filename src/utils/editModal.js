@@ -23,6 +23,7 @@ class EditModal extends React.Component{
     let {type} = this.props;
     switch(type){
       case 'newComment':
+        modalTitle = 'New Comment';
         this.onSubmit = (e) => {
           e.preventDefault();
           this.props.form.validateFields((err, values)=>{
@@ -63,7 +64,7 @@ class EditModal extends React.Component{
               }
               ]
             })(
-              <TextArea />
+              <TextArea autosize={{minRows:6}}/>
             )}
           </FormItem>);
         // this.form.push(
@@ -74,6 +75,7 @@ class EditModal extends React.Component{
 
         break;
       case 'editComment':
+        modalTitle = 'Edit Comment';
         this.target = comments.find((x) => {return x.id === editID;});
         this.body = this.target.body;
         this.onSubmit = (e) => {
@@ -103,7 +105,7 @@ class EditModal extends React.Component{
               ],
               initialValue:this.body,
             })(
-              <TextArea />
+              <TextArea autosize={{minRows:6}}/>
             )}
           </FormItem>);
         // this.form.push(
@@ -114,6 +116,7 @@ class EditModal extends React.Component{
 
         break;
       case 'editPost':
+        modalTitle = 'Edit Post';
         this.target = posts.find((x) => {return x.id === editID;});
         this.body = this.target.body;
         this.title = this.target.title;
@@ -160,7 +163,7 @@ class EditModal extends React.Component{
               }],
               initialValue:this.body,
             })(
-              <TextArea />
+              <TextArea autosize={{minRows:6}}/>
             )}
           </FormItem>);
         // this.form.push(

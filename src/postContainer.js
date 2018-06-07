@@ -11,7 +11,7 @@ import {Layout} from 'antd';
 let Content = Layout.Content;
 let contentStyle = {
   minHeight:'100vh',
-}
+};
 
 class postContainer extends Component {
   state = {
@@ -55,7 +55,6 @@ class postContainer extends Component {
   render(){
     let posts = [];
     let loading = this.state.loading;
-    let openNewPostModalOpen = this.state.openNewPostModalOpen;
     let closeNewPostModal = this.closeNewPostModal;
     let categories = this.props.categories;
     let newPost = this.props.newPost;

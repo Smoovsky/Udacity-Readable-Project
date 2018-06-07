@@ -7,7 +7,6 @@ import CommentIndexUtil from './utils/commentIndexUtil.js';
 import {newComment, editPost, editComment} from './actions';
 import EditModal from './utils/editModal.js';
 import sortBy from 'sort-by';
-import {Redirect} from 'react-router-dom';
 import {Layout} from 'antd';
 
 let Content = Layout.Content;
@@ -37,7 +36,6 @@ class CommentContainer extends Component{
 
   closeEditModal = () => {
     this.setState({editModalOpen:false});
-    console.log(this.state.editModalOpen);
   }
 
 
@@ -50,7 +48,6 @@ class CommentContainer extends Component{
   }
 
   render(){
-    let isModalOpen = this.state.editModalOpen;
     let post = this.props.posts.posts.find((post)=>{
       return post.id === this.id;
     });

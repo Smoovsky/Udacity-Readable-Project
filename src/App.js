@@ -8,7 +8,9 @@ import 'antd/dist/antd.css';
 import { Layout } from 'antd';
 
 class App extends Component {
-
+  componentDidMount(){
+    document.title = 'Readable';
+  }
   render() {
     return (
       <Layout>

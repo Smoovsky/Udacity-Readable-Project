@@ -1,10 +1,9 @@
 import React from 'react';
-import Vote from './vote.js';
 import EditDelete from './editDelete.js';
 
 function PostUtil({id, type, openEditModal, title, body}){
   return (
-      <EditDelete {...{id, type, openEditModal, title, body}} key={type+id+'ED'}/>
+    <EditDelete {...{id, type, openEditModal, title, body}} key={type+id+'ED'}/>
   );
 }
 

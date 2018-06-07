@@ -6,10 +6,14 @@ import { Layout, Row, Col } from 'antd';
 const { Header } = Layout;
 const logoStyle = {
   marginTop:'10px',
-  height:'30px',
-  width:'150px',
+  height:'50px',
+  width:'190px',
   backgroundImage:`url(${Logo})`,
-  backgroundSize: '100% auto',
+  backgroundSize: 'auto 100%',
+  backgroundRepeat:'no-repeat',
+  position:'relative',
+  top:'-3px',
+  boxShadow:'inset 0px 0px 50px 5px rgba(12,27,45)',
 };
 
 let title = withRouter(({history}) => {

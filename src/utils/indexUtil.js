@@ -10,10 +10,7 @@ const Option = Select.Option;
 function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOrder, sort, order}){
   let Options = [];
   let utilStyle = {
-    padding:'5px 0',
-  };
-  let colStyle = {
-    textAlign:'center',
+    margin:'5px 50px',
   };
   for (let cat of categories){
     Options.push(
@@ -42,8 +39,8 @@ function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOr
   );
 
   return (
-    <Row style={utilStyle} type="flex" justify="space-around">
-      <Col span={8} style={colStyle}>
+    <Row style={utilStyle} type="flex" justify="space-between">
+      <Col span={8}  style={{textAlign:'left'}}>
         <Button
           type="primary"
           onClick={(e)=>{
@@ -53,7 +50,7 @@ function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOr
           <Icon type="edit" />New Post
         </Button>
       </Col>
-      <Col span={8} style={colStyle}>
+      <Col span={8}  style={{textAlign:'center'}}>
         View&nbsp;
         <StyledSelect
           onChange={(value)=>{
@@ -63,7 +60,7 @@ function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOr
           {Options}
         </StyledSelect>
       </Col>
-      <Col span={8} style={colStyle}>
+      <Col span={8}  style={{textAlign:'right'}}>
         Sort by&nbsp;
         {/* <StyledSelect onChange={(e)=>{
           setSort(e.target.value);

@@ -82,13 +82,9 @@ class postContainer extends Component {
           order={this.state.sortOrder}
         />
         <PostView {...{posts, loading}} />
-        <Modal
-          isOpen={openNewPostModalOpen}
-          onRequestClose={this.closeNewPostModal}
-          contentLabel='Modal'
-        >
-          <NewPostModal  {...{newPost, categories, closeNewPostModal}}/>
-        </Modal>
+
+        <NewPostModal  {...{newPost, categories, closeNewPostModal}} visible={this.state.openNewPostModalOpen}/>
+
       </Content>
     );
   }

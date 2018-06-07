@@ -10,7 +10,9 @@ let contentStyle = {
 };
 
 function CommentView({post, comments, openEditModal, loading}){
-  comments = (post && comments) ? [post, ...comments] : [];
+  comments = (post && comments) ? [post, ...comments]
+    .filter((x)=>x.deleted!==true)
+    : [];
   return (
     <List
       bordered
@@ -42,7 +44,7 @@ function CommentView({post, comments, openEditModal, loading}){
           </List.Item>);
       }}
     />
-  )
+  );
   return(
     <div className='post'>
       <ul>

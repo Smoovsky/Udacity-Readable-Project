@@ -37,6 +37,7 @@ class CommentContainer extends Component{
 
   closeEditModal = () => {
     this.setState({editModalOpen:false});
+    console.log(this.state.editModalOpen);
   }
 
 
@@ -70,20 +71,15 @@ class CommentContainer extends Component{
           openEditModal={this.openEditModal}
           loading={!this.state.ready}
         />
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={this.closeEditModal}
-          contentLabel='Modal'
-        >
-          <EditModal
-            type={this.state.editModalType}
-            editID={this.state.editID}
-            newComment={this.props.newComment}
-            editComment={this.props.editComment}
-            editPost={this.props.editPost}
-            closeEditModal={this.closeEditModal}
-          />
-        </Modal>
+        <EditModal
+          type={this.state.editModalType}
+          editID={this.state.editID}
+          newComment={this.props.newComment}
+          editComment={this.props.editComment}
+          editPost={this.props.editPost}
+          closeEditModal={this.closeEditModal}
+          visible={this.state.editModalOpen}
+        />
       </Content>
     );
   }

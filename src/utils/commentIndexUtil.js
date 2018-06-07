@@ -3,10 +3,7 @@ import { Row, Col, Button, Menu, Dropdown, Icon } from 'antd';
 
 function CommentIndexUtil({openEditModal, setSort, setSortOrder, postID, sort, order}){
   let utilStyle = {
-    padding:'5px 0',
-  };
-  let colStyle = {
-    textAlign:'center',
+    margin:'5px 50px',
   };
   let handleSort = (e) => {
     setSort(e.key);
@@ -21,8 +18,8 @@ function CommentIndexUtil({openEditModal, setSort, setSortOrder, postID, sort, o
     </Menu>
   );
   return (
-    <Row style={utilStyle} type="flex" justify="space-around">
-      <Col span={8} style={colStyle}>
+    <Row style={utilStyle} type="flex" justify="space-between">
+      <Col span={8}  style={{textAlign:'left'}}>
         <Button
           type="primary"
           onClick={(e)=>{
@@ -32,18 +29,20 @@ function CommentIndexUtil({openEditModal, setSort, setSortOrder, postID, sort, o
           <Icon type="edit" />New Comment
         </Button>
       </Col>
-      <Col span={8} style={colStyle}>
+      <Col span={8}>
       </Col>
-      <Button.Group>
-        <Dropdown overlay={menuSort}>
-          <Button>
-            {sort === 'timestamp' ? 'Date' : 'Vote'}
+      <Col span={8} style={{textAlign:'right'}}>
+        <Button.Group>
+          <Dropdown overlay={menuSort}>
+            <Button>
+              {sort === 'timestamp' ? 'Date' : 'Vote'}
+            </Button>
+          </Dropdown>
+          <Button onClick={handleOrder}>
+            {order === 'descending' ? (<React.Fragment>Descend <Icon type="down"/></React.Fragment>) : (<React.Fragment>Ascend <Icon type="up"/></React.Fragment>)}
           </Button>
-        </Dropdown>
-        <Button onClick={handleOrder}>
-          {order === 'descending' ? (<React.Fragment>Descend <Icon type="down"/></React.Fragment>) : (<React.Fragment>Ascend <Icon type="up"/></React.Fragment>)}
-        </Button>
-      </Button.Group>
+        </Button.Group>
+      </Col>
     </Row>
     // <div className="toolbar">
     //

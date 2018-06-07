@@ -17,11 +17,12 @@ let editDelete = withRouter(function({type, id, deletePost, deleteComment, openE
       break;
   }
   return (
-    <div style={{clear:'both'}}>
+    <div>
       <a onClick={(e)=>{
         e.preventDefault();
         openEditModal('edit'+type, id);
       }}>edit</a>
+      &nbsp;
       <a onClick={(e)=>{
         e.preventDefault();
         funcDelete(id);

@@ -4,7 +4,7 @@ import Vote from '../utils/vote.js';
 import EditDelete from '../utils/editDelete.js';
 
 let contentStyle = {
-  margin:'0 50px',
+  margin:'5px 5vw',
 };
 
 function CommentView({post, comments, openEditModal, loading}){

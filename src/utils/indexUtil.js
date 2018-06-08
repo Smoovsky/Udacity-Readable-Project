@@ -1,16 +1,26 @@
 import React from 'react';
-import { Row, Col, Button, Select, Menu, Dropdown, Icon } from 'antd';
+import { Row, Col, Button, Select, Menu, Dropdown, Icon, Popover } from 'antd';
 import styled from 'styled-components';
+import throttle from 'lodash.throttle';
 
 const StyledSelect = styled(Select)`
   width:100px
 `;
+
+const PopoverButton = {
+  display:'block',
+  width:'50px',
+  height:'50px',
+  color:'white',
+  fontSize:'50px',
+  margin:'5px 5vw',
+};
 const Option = Select.Option;
 
-function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOrder, sort, order}){
+function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOrder, sort, order, visibleControl=null}){
   let Options = [];
   let utilStyle = {
-    margin:'5px 50px',
+    margin:'5px 5vw',
   };
   for (let cat of categories){
     Options.push(
@@ -40,17 +50,18 @@ function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOr
 
   return (
     <Row style={utilStyle} type="flex" justify="space-between">
-      <Col span={8}  style={{textAlign:'left'}}>
+      <Col sm={{span:24}} xs={{span:24}} md={{span:8}} style={{textAlign:'center', margin:'5px auto'}}>
         <Button
           type="primary"
           onClick={(e)=>{
             e.preventDefault();
+            visibleControl? visibleControl(false): null;
             openNewPostModal();
           }}>
           <Icon type="edit" />New Post
         </Button>
       </Col>
-      <Col span={8}  style={{textAlign:'center'}}>
+      <Col sm={{span:24}} xs={{span:24}} md={{span:8}} style={{textAlign:'center', margin:'5px auto'}}>
         View&nbsp;
         <StyledSelect
           onChange={(value)=>{
@@ -60,7 +71,7 @@ function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOr
           {Options}
         </StyledSelect>
       </Col>
-      <Col span={8}  style={{textAlign:'right'}}>
+      <Col sm={{span:24}} xs={{span:24}} md={{span:8}} style={{textAlign:'center', margin:'5px auto'}}>
         Sort by&nbsp;
         {/* <StyledSelect onChange={(e)=>{
           setSort(e.target.value);
@@ -89,4 +100,43 @@ function IndexUtil({openNewPostModal,  setFilter, categories, setSort, setSortOr
   );
 }
 
-export default IndexUtil;
+class ResponsiveIndexUtil extends React.Component{
+  state = {
+    viewPortWidth: 0,
+    menuVisible: false,
+  }
+  componentDidMount(){
+    this.saveViewportDimensions();
+    window.addEventListener('resize', this.saveViewportDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.saveViewportDimensions);
+  }
+  saveViewportDimensions = throttle(()=>{
+    this.setState({
+      viewPortWidth: window.innerWidth,
+    });
+  }, 250)
+  onVisibleChange = (menuVisible)=>{
+    this.setState({menuVisible});
+  }
+  render = ()=>{
+    if(this.state.viewPortWidth > 768){
+      return (<IndexUtil {...this.props}/>);
+    }
+    return (
+      <Row type="flex" justify="end" style={{position:'absolute', top:'0', width:'30%', right:'0'}}>
+        <Popover
+          content={<IndexUtil {...this.props} visibleControl={this.onVisibleChange} />}
+          trigger="click"
+          visible={this.state.menuVisible}
+          onVisibleChange={this.onVisibleChange}
+        >
+          <Icon type="bars" style={PopoverButton}/>
+        </Popover>
+      </Row>
+    );
+  }
+}
+
+export default ResponsiveIndexUtil;

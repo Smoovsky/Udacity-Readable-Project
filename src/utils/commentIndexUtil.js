@@ -1,9 +1,19 @@
 import React from 'react';
-import { Row, Col, Button, Menu, Dropdown, Icon } from 'antd';
+import { Row, Col, Button, Menu, Dropdown, Icon, Popover } from 'antd';
+import throttle from 'lodash.throttle';
 
-function CommentIndexUtil({openEditModal, setSort, setSortOrder, postID, sort, order}){
+const PopoverButton = {
+  display:'block',
+  width:'50px',
+  height:'50px',
+  color:'white',
+  fontSize:'50px',
+  margin:'5px 5vw',
+};
+
+function CommentIndexUtil({openEditModal, setSort, setSortOrder, postID, sort, order, visibleControl = null}){
   let utilStyle = {
-    margin:'5px 50px',
+    margin:'5px 5vw',
   };
   let handleSort = (e) => {
     setSort(e.key);
@@ -19,19 +29,19 @@ function CommentIndexUtil({openEditModal, setSort, setSortOrder, postID, sort, o
   );
   return (
     <Row style={utilStyle} type="flex" justify="space-between">
-      <Col span={8}  style={{textAlign:'left'}}>
+      <Col sm={{span:24}} xs={{span:24}} md={{span:12}} style={{textAlign:'center', margin:'5px auto'}}>
         <Button
           type="primary"
           onClick={(e)=>{
             e.preventDefault();
+            visibleControl? visibleControl(false): null;
             openEditModal('newComment', postID);
           }}>
           <Icon type="edit" />New Comment
         </Button>
       </Col>
-      <Col span={8}>
-      </Col>
-      <Col span={8} style={{textAlign:'right'}}>
+
+      <Col sm={{span:24}} xs={{span:24}} md={{span:12}} style={{textAlign:'center', margin:'5px auto'}}>
         <Button.Group>
           <Dropdown overlay={menuSort}>
             <Button>
@@ -84,4 +94,43 @@ function CommentIndexUtil({openEditModal, setSort, setSortOrder, postID, sort, o
   );
 }
 
-export default CommentIndexUtil;
+class ResponsiveCommentIndexUtil extends React.Component{
+  state = {
+    viewPortWidth: 0,
+    menuVisible: false,
+  }
+  componentDidMount(){
+    this.saveViewportDimensions();
+    window.addEventListener('resize', this.saveViewportDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.saveViewportDimensions);
+  }
+  saveViewportDimensions = throttle(()=>{
+    this.setState({
+      viewPortWidth: window.innerWidth,
+    });
+  }, 250)
+  onVisibleChange = (menuVisible)=>{
+    this.setState({menuVisible});
+  }
+  render = ()=>{
+    if(this.state.viewPortWidth > 768){
+      return (<CommentIndexUtil {...this.props}/>);
+    }
+    return (
+      <Row type="flex" justify="end" style={{position:'absolute', top:'0', width:'30%', right:'0'}}>
+        <Popover
+          content={<CommentIndexUtil {...this.props} visibleControl={this.onVisibleChange} />}
+          trigger="click"
+          visible={this.state.menuVisible}
+          onVisibleChange={this.onVisibleChange}
+        >
+          <Icon type="bars" style={PopoverButton}/>
+        </Popover>
+      </Row>
+    );
+  }
+}
+
+export default ResponsiveCommentIndexUtil;

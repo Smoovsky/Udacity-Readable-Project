@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import Vote from '../utils/vote.js';
 
 let contentStyle = {
-  margin:'0 50px',
+  margin:'5px 5vw',
 };
 
 function PostView({posts, loading}){

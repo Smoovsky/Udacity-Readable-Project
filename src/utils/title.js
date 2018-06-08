@@ -23,7 +23,7 @@ let title = withRouter(({history}) => {
   return (
     // <div className="title" onClick={ handler}>Readable</div>
     //<Header style={{backgroundColor:'transparent'}}>
-    <Header>
+    <Header style={{padding:'0 5vw'}}>
       <Row>
         <Col span={6} onClick={handler}>
           <div style={logoStyle} />
